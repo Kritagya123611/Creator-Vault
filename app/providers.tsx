@@ -1,6 +1,7 @@
 "use client";
 
-import { WagmiConfig, createConfig, http } from "wagmi";
+import { useEffect, useState } from "react";
+import { WagmiConfig, http } from "wagmi";
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import {
@@ -37,6 +38,14 @@ const endpoint = "https://api.mainnet-beta.solana.com";
 const wallets = [new PhantomWalletAdapter()];
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <QueryClientProvider client={queryClient}>
       <WagmiConfig config={config}>
